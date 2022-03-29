@@ -8,6 +8,7 @@ const TextInput = styled.input`
     padding: 0 11px;
     font-size: 20px;
     font-weight: 400;
+    color: #AFAFAF;
 
     &::placeholder {
         color: #DBDBDB;

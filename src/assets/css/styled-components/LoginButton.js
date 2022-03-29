@@ -11,6 +11,12 @@ const LoginButton = styled.button`
     font-size: 21px;
     font-weight: 400;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: ${props => props.disabled? '0.7' : '1'};
+
     &:hover {
         cursor: pointer;
         filter: brightness(1.1);
