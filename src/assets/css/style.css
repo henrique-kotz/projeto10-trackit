@@ -4,4 +4,16 @@
 
 body {
     font-family: 'Lexend Deca', sans-serif;
+    background-color: #fff;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    font-family: 'Playball', cursive;
+    font-size: 70px;
+    font-weight: 400;
+    color: #126BA5;
 }
