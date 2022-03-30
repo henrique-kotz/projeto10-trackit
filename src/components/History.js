@@ -1,15 +1,9 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 
-import UserContext from "../contexts/UserContext"
-
-export default function Today() {
-    const { user } = useContext(UserContext);
-    //console.log(user);
-
+export default function History() {
     return (
         <Container>
-            /hoje
+            /historico
         </Container>
     );
 }
