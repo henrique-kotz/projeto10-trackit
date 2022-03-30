@@ -35,7 +35,6 @@ export default function Login() {
                 alert(err.response.data.message);
                 setIsWaiting(false);
             })
-
     }
 
     return (

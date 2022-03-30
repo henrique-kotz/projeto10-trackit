@@ -4,6 +4,7 @@ import { useState } from 'react';
 import UserContext from '../contexts/UserContext';
 import Login from './Login';
 import SignUp from './SignUp';
+import Header from './Header';
 import Today from './Today';
 
 import '../assets/css/reset.css';
@@ -14,6 +15,7 @@ export default function App() {
 
     return (
     <UserContext.Provider value={{user, setUser}}>
+        {user.token ? <Header /> : ''}
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Login />} />

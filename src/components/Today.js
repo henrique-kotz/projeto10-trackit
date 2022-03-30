@@ -1,10 +1,20 @@
 import { useContext } from 'react';
+import styled from 'styled-components';
 
 import UserContext from "../contexts/UserContext"
 
 export default function Today() {
     const { user } = useContext(UserContext);
-    console.log(user);
+    //console.log(user);
 
-    return <p>/hoje</p>
+    return (
+        <Container>
+            /hoje
+        </Container>
+    );
 }
+
+const Container = styled.div`
+    margin-top: 70px;
+    margin-bottom: 70px;
+`;
