@@ -7,7 +7,7 @@ import SignUp from './SignUp';
 import Header from './Header';
 import Navbar from './Navbar';
 import Today from './Today';
-import Habits from './Habits';
+import Habits from './HabitsPage/Habits';
 import History from './History';
 
 import '../assets/css/reset.css';
