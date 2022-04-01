@@ -37,7 +37,7 @@ export default function Habits() {
                 Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
             </Message> : 
             <ul>
-                {habits.map(habit => <HabitItem key={habit.id} habit={habit} />)}
+                {habits.map(habit => <HabitItem key={habit.id} habit={habit} setHabits={setHabits} />)}
             </ul>}
             
         </Container>

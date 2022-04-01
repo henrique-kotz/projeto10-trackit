@@ -27,7 +27,6 @@ export default function AddHabit({ closeForm, setHabits }) {
 
         axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', habit, config)
             .then(res => {
-                console.log(res.data);
                 setIsWaiting(false);
                 setHabit({
                     name: '',

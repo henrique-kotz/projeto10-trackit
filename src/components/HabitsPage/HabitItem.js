@@ -1,8 +1,12 @@
+import { useContext } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { BsTrash } from 'react-icons/bs';
 
-export default function HabitItem(props) {
-    const { name, days } = props.habit;
+import UserContext from '../../contexts/UserContext';
+
+export default function HabitItem({ habit, setHabits }) {
+    const { name, days, id } = habit;
     const weekdays = [
         {text: 'D'},
         {text: 'S'},
@@ -13,6 +17,13 @@ export default function HabitItem(props) {
         {text: 'S'}
     ];
 
+    const { user } = useContext(UserContext);
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${user.token}`
+        }
+    }; 
+
     for (let i=0; i<weekdays.length; i++) {
         for (let j=0; j<days.length; j++) {
             if (i === days[j]) {
@@ -21,10 +32,20 @@ export default function HabitItem(props) {
         }
     }
 
+    function deleteHabit(id) {
+        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config)
+            .then(res => {
+                axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config)
+                    .then(res => setHabits(res.data))
+                    .catch(err => console.log(err.response))
+            })
+            .catch(err => alert(err.response.data.message))
+    }
+
     return (
         <HabitBox>
             <p>{name}</p>
-            <span>
+            <span onClick={() => deleteHabit(id)}>
                 <BsTrash color='#666' />
             </span>
             <WeekdayWrapper>
