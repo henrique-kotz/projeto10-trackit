@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import UserContext from '../../contexts/UserContext';
 import AddHabit from './AddHabit';
+import HabitItem from './HabitItem';
 
 export default function Habits() {
     const [habits, setHabits] = useState([]);
@@ -16,11 +17,11 @@ export default function Habits() {
         }
     }; 
 
-    // useEffect(() => {
-    //     axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config)
-    //         .then(res => setHabits(res.data))
-    //         .catch(err => console.log(err.response))
-    // }, []);
+    useEffect(() => {
+        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config)
+            .then(res => setHabits(res.data))
+            .catch(err => console.log(err.response))
+    }, []);
 
     return (
         <Container>
@@ -29,13 +30,16 @@ export default function Habits() {
                 <PlusHabit onClick={() => setShowForm(true)}>+</PlusHabit>
             </TitleWrapper>
 
-            {showForm ? <AddHabit closeForm={() => setShowForm(false)} /> : ''}
+            {showForm ? <AddHabit closeForm={() => setShowForm(false)} setHabits={setHabits} /> : ''}
 
             {habits.length === 0 ? 
             <Message>
                 Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-            </Message>
-            : ''}
+            </Message> : 
+            <ul>
+                {habits.map(habit => <HabitItem key={habit.id} habit={habit} />)}
+            </ul>}
+            
         </Container>
     );
 }

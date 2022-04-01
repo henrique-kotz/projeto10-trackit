@@ -9,7 +9,7 @@ import Weekdays from './Weekdays';
 
 import TextInput from '../../assets/css/styled-components/TextInput';
 
-export default function AddHabit({ closeForm }) {
+export default function AddHabit({ closeForm, setHabits }) {
     const { habit, setHabit } = useContext(HabitContext);
     const { user } = useContext(UserContext);
     const config = {
@@ -25,10 +25,19 @@ export default function AddHabit({ closeForm }) {
         if (habit.days.length === 0) return alert('Selecione pelo menos um dia da semana!');
         setIsWaiting(true);
 
-        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', habit)
+        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', habit, config)
             .then(res => {
                 console.log(res.data);
                 setIsWaiting(false);
+                setHabit({
+                    name: '',
+                    days: []
+                });
+                closeForm();
+
+                axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config)
+                    .then(res => setHabits(res.data))
+                    .catch(err => console.log(err.response))
             })
             .catch(err => {
                 alert(err.response.data.messaage);
