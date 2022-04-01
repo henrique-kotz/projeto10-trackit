@@ -1,17 +1,35 @@
+import { useContext } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 
+import UserContext from '../../contexts/UserContext';
+import HabitContext from '../../contexts/HabitContext';
 import Weekdays from './Weekdays';
 
 import TextInput from '../../assets/css/styled-components/TextInput';
 
 export default function AddHabit({ closeForm }) {
+    const { habit, setHabit } = useContext(HabitContext);
+    const { user } = useContext(UserContext);
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${user.token}`
+        }
+    };
+
+    function submitHabit(e) {
+        e.preventDefault();
+    }
 
     return (
         <FormWrapper>
-            <form>
+            <form onSubmit={submitHabit}>
                 <div>
-                    <TextInput type='text' placeholder='nome do hábito' />
-                    <Weekdays />
+                    <TextInput type='text' placeholder='nome do hábito' 
+                        required value={habit.name}
+                        onChange={e => setHabit({...habit, name: e.target.value})}
+                    />
+                    <Weekdays habit={habit} setHabit={setHabit} />
                 </div>
                 
                 <div>

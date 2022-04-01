@@ -1,13 +1,46 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-export default function Weekdays() {
-    const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+export default function Weekdays({ habit, setHabit }) {
+    const [weekdays, setWeekdays] = useState([
+        {text: 'D'},
+        {text: 'S'},
+        {text: 'T'},
+        {text: 'Q'},
+        {text: 'Q'},
+        {text: 'S'},
+        {text: 'S'}
+    ]);
+    
+    useEffect(() => {
+        for (let i=0; i<weekdays.length; i++) {
+            for (let j=0; j<habit.days.length; j++) {
+                if (i === habit.days[j]) {
+                    weekdays[i].selected = true;
+                    setWeekdays([...weekdays]);
+                }
+            }
+        }
+    }, []);
+
+    function selectDay(day, index) {
+        if (day.selected) {
+            day.selected = false;
+            setWeekdays([...weekdays]);
+            setHabit({...habit, days: [...habit.days].filter(elem => elem !== index)});
+        } else {
+            day.selected = true;
+            setWeekdays([...weekdays]);
+            setHabit({...habit, days: [...habit.days, index]});
+        }
+    }
 
     return (
         <WeekdayWrapper>
             {weekdays.map((day, i) => 
-                <WeekdayButton key={i} selected={false}>
-                    {day}
+                <WeekdayButton key={i} selected={day.selected}
+                    onClick={() => selectDay(day, i)}>
+                    {day.text}
                 </WeekdayButton>)}
         </WeekdayWrapper>
     );
@@ -17,7 +50,7 @@ const WeekdayWrapper = styled.div`
     display: flex;
 `;
 
-const WeekdayButton = styled.button`
+const WeekdayButton = styled.div`
     width: 30px;
     height: 30px;
     border: 1px solid ${props => props.selected ? '#CFCFCF' : '#D4D4D4'};
@@ -28,6 +61,7 @@ const WeekdayButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
     color: ${props => props.selected ? '#fff' : '#DBDBDB'};
     font-size: 20px;

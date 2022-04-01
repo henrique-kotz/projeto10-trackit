@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 
 import UserContext from '../contexts/UserContext';
+import HabitContext from '../contexts/HabitContext';
 import Login from './Login';
 import SignUp from './SignUp';
 import Header from './Header';
@@ -15,22 +16,30 @@ import '../assets/css/style.css';
 
 export default function App() {
     const [user, setUser] = useState({});
+    const [habit, setHabit] = useState({
+        name: '',
+        days: []
+    });
 
     return (
     <UserContext.Provider value={{user, setUser}}>
-        {user.token ? <Header /> : ''}
+        <HabitContext.Provider value={{habit, setHabit}}>
+            {user.token ? <Header /> : ''}
 
-        <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Login />} />
-                <Route path='/cadastro' element={<SignUp />} />
-                <Route path='/hoje' element={<Today />} />
-                <Route path='/habitos' element={<Habits />} />
-                <Route path='/historico' element={<History />}/>
-            </Routes>
-        
-        {user.token ? <Navbar /> : ''}
-        </BrowserRouter>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<Login />} />
+                    <Route path='/cadastro' element={<SignUp />} />
+                    <Route path='/hoje' element={<Today />} />
+
+                        <Route path='/habitos' element={<Habits />} />
+
+                    <Route path='/historico' element={<History />}/>
+                </Routes>
+            
+            {user.token ? <Navbar /> : ''}
+            </BrowserRouter>
+        </HabitContext.Provider>
     </UserContext.Provider>
     );
 }

@@ -16,11 +16,11 @@ export default function Habits() {
         }
     }; 
 
-    useEffect(() => {
-        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config)
-            .then(res => setHabits(res.data))
-            .catch(err => console.log(err.response))
-    }, []);
+    // useEffect(() => {
+    //     axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config)
+    //         .then(res => setHabits(res.data))
+    //         .catch(err => console.log(err.response))
+    // }, []);
 
     return (
         <Container>
