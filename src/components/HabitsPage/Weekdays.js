@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-export default function Weekdays({ habit, setHabit }) {
+export default function Weekdays({ habit, setHabit, isWaiting }) {
     const [weekdays, setWeekdays] = useState([
         {text: 'D'},
         {text: 'S'},
@@ -39,6 +39,7 @@ export default function Weekdays({ habit, setHabit }) {
         <WeekdayWrapper>
             {weekdays.map((day, i) => 
                 <WeekdayButton key={i} selected={day.selected}
+                    type='button' disabled={isWaiting}
                     onClick={() => selectDay(day, i)}>
                     {day.text}
                 </WeekdayButton>)}
@@ -50,7 +51,7 @@ const WeekdayWrapper = styled.div`
     display: flex;
 `;
 
-const WeekdayButton = styled.div`
+const WeekdayButton = styled.button`
     width: 30px;
     height: 30px;
     border: 1px solid ${props => props.selected ? '#CFCFCF' : '#D4D4D4'};

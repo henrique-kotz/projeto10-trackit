@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { ThreeDots } from 'react-loader-spinner';
 
 import UserContext from '../../contexts/UserContext';
 import HabitContext from '../../contexts/HabitContext';
@@ -17,8 +18,22 @@ export default function AddHabit({ closeForm }) {
         }
     };
 
+    const [isWaiting, setIsWaiting] = useState(false);
+
     function submitHabit(e) {
         e.preventDefault();
+        if (habit.days.length === 0) return alert('Selecione pelo menos um dia da semana!');
+        setIsWaiting(true);
+
+        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', habit)
+            .then(res => {
+                console.log(res.data);
+                setIsWaiting(false);
+            })
+            .catch(err => {
+                alert(err.response.data.messaage);
+                setIsWaiting(false);
+            })
     }
 
     return (
@@ -26,15 +41,19 @@ export default function AddHabit({ closeForm }) {
             <form onSubmit={submitHabit}>
                 <div>
                     <TextInput type='text' placeholder='nome do hábito' 
-                        required value={habit.name}
+                        required value={habit.name} disabled={isWaiting}
                         onChange={e => setHabit({...habit, name: e.target.value})}
                     />
-                    <Weekdays habit={habit} setHabit={setHabit} />
+                    <Weekdays habit={habit} setHabit={setHabit} isWaiting={isWaiting} />
                 </div>
                 
                 <div>
-                    <CancelButton type='button' onClick={closeForm}>Cancelar</CancelButton>
-                    <SaveButton type='submit'>Salvar</SaveButton>
+                    <CancelButton type='button' onClick={closeForm} disabled={isWaiting}>
+                        Cancelar    
+                    </CancelButton>
+                    <SaveButton type='submit' disabled={isWaiting}>
+                        {isWaiting ? <ThreeDots width='84' height='15' color='#fff' /> : 'Salvar'}
+                    </SaveButton>
                 </div>
             </form>
         </FormWrapper>
@@ -60,6 +79,7 @@ const FormWrapper = styled.div`
         }
 
         div:last-child {
+            display: flex;
             align-self: flex-end;
         }
     }
@@ -82,6 +102,8 @@ const SaveButton = styled.button`
     &:hover {
         filter: brightness(1.1);
     }
+
+    opacity: ${props => props.disabled ? '0.7' : '1'};
 `;
 
 const CancelButton = styled(SaveButton)`
