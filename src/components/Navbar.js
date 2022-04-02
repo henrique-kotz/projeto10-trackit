@@ -1,11 +1,14 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import PercentageContext from '../contexts/PercentageContext';
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 export default function Navbar() {
-
+    const { percentage } = useContext(PercentageContext);
 
     return (
         <Container>
@@ -16,7 +19,7 @@ export default function Navbar() {
             <Link to='/hoje'>    
                 <div>
                 <CircularProgressbar
-                    value={40}
+                    value={percentage}
                     text={'Hoje'}
                     strokeWidth={8}
                     background
