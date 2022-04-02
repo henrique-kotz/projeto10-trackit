@@ -1,9 +1,10 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { BsTrash } from 'react-icons/bs';
 
 import UserContext from '../../contexts/UserContext';
+import ConfirmDelete from './ConfirmDelete';
 
 export default function HabitItem({ habit, setHabits }) {
     const { name, days, id } = habit;
@@ -16,6 +17,7 @@ export default function HabitItem({ habit, setHabits }) {
         {text: 'S'},
         {text: 'S'}
     ];
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const { user } = useContext(UserContext);
     const config = {
@@ -45,12 +47,14 @@ export default function HabitItem({ habit, setHabits }) {
     return (
         <HabitBox>
             <p>{name}</p>
-            <span onClick={() => deleteHabit(id)}>
+            <span onClick={() => setShowConfirm(true)}>
                 <BsTrash color='#666' />
             </span>
             <WeekdayWrapper>
                 {weekdays.map((day, i) => <WeekdayIcon key={i} selected={day.selected}>{day.text}</WeekdayIcon>)}
             </WeekdayWrapper>
+
+            {showConfirm ? <ConfirmDelete setShowConfirm={setShowConfirm} deleteHabit={() => deleteHabit(id)} /> : ''}
         </HabitBox>
     );
 }
